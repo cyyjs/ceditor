@@ -1,0 +1,83 @@
+import { BrowserWindow, ipcMain } from 'electron'
+import Qs from 'querystring'
+import Config from '../../config'
+import axios from 'axios'
+let options = {
+  client_id: Config.ClientID,
+  client_secret: Config.ClientSecret,
+  scopes: ['user:email'] // Scopes limit access for OAuth tokens.
+}
+
+function requestGithubToken (options, code) {
+  let token
+  axios.post('https://github.com/login/oauth/access_token', {
+    client_id: Config.ClientID,
+    client_secret: Config.ClientSecret,
+    code: code
+  }).then(res => {
+    let data = Qs.parse(res.data)
+    token = data.access_token
+    return axios.get('https://api.github.com/user', {headers: {'Authorization': 'bearer ' + token}})
+    // ipcMain.emit('')
+    // window.localStorage.setItem('githubtoken', response.body.access_token)
+  }).then(res => {
+    let data = res.data
+    let user = {
+      name: data.name,
+      avatarUrl: data.avatar_url,
+      blog: data.blog,
+      email: data.email,
+      location: data.location,
+      bio: data.bio,
+      githubAccount: data.login
+    }
+    ipcMain.emit('logined', {
+      token,
+      user
+    })
+  }).catch(function (error) {
+    ipcMain.emit('message', {
+      title: '登录失败',
+      type: 'error',
+      message: error
+    })
+  })
+}
+
+function OAuthWin () {
+  let win = new BrowserWindow({ width: 800, height: 600, show: false, nodeIntegration: false })
+  let authUrl = Config.githubUrl + 'client_id=' + options.client_id + '&scope=' + options.scopes
+  win.loadURL(authUrl)
+
+  function handleCallback (url) {
+    let rawCode = /code=([^&]*)/.exec(url) || null
+    let code = (rawCode && rawCode.length > 1) ? rawCode[1] : null
+    let error = /\?error=(.+)$/.exec(url)
+
+    if (code || error) {
+      win.hide()
+    }
+
+    if (code) {
+      requestGithubToken(options, code)
+    } else if (error) {
+    }
+  }
+
+  win.webContents.on('will-navigate', function (event, url) {
+    handleCallback(url)
+  })
+
+  win.webContents.on('did-get-redirect-request', function (event, oldUrl, newUrl) {
+    handleCallback(newUrl)
+  })
+
+  win.on('close', function () {
+    win = null
+  })
+  ipcMain.on('oauth', function (event, arg) {
+    win.show()
+  })
+  return win
+}
+export default OAuthWin
