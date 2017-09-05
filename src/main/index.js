@@ -2,7 +2,7 @@
 
 import { app, BrowserWindow, Menu, Tray, ipcMain } from 'electron'
 
-import {MyMenu, LoginWin, OAuthWin, Message} from '../lib'
+import {MyMenu, OAuthWin, Message} from '../lib'
 
 /**
  * Set `__static` path to static files in production
@@ -15,41 +15,40 @@ if (process.env.NODE_ENV !== 'development') {
 global.__winurl = process.env.NODE_ENV === 'development'
   ? 'http://localhost:9080'
   : `file://${__dirname}/index.html`
-let mainWindow, loginWin, tray
+let mainWindow, tray
 function createWindow () {
-  loginWin = LoginWin()
   OAuthWin()
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 660,
+    height: 720,
     useContentSize: true,
-    width: 1000,
+    width: 1110,
     titleBarStyle: 'hidden',
     // backgroundColor: '#2e2c29',
-    minWidth: 1000,
-    minHeight: 660,
+    minWidth: 1110,
+    minHeight: 720,
     show: false
   })
-
+  mainWindow.loadURL(__winurl)
   mainWindow.once('ready-to-show', () => {
-    loginWin.show()
-  })
-  mainWindow.on('focus', () => {
-    MyMenu.showEditor()
+    mainWindow.show()
   })
   mainWindow.on('closed', () => {
     mainWindow = null
   })
-  loginWin.on('closed', () => {
-    loginWin = null
+  mainWindow.on('focus', () => {
+    MyMenu.showEditor()
   })
+  // loginWin.on('closed', () => {
+  //   loginWin = null
+  // })
   Message.init()
   ipcMain.on('logined', function (data) {
-    loginWin.close()
-    mainWindow.loadURL(__winurl)
-    mainWindow.show()
+    // loginWin.close()
+    // mainWindow.loadURL(__winurl)
+    // mainWindow.show()
     mainWindow.webContents.send('logined', data)
   })
 }
@@ -80,11 +79,7 @@ app.on('window-all-closed', () => {
 })
 
 app.on('activate', () => {
-  if (loginWin) {
-    loginWin.show()
-  } else {
-    showMainWindow()
-  }
+  showMainWindow()
 })
 
 /**

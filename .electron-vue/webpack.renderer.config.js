@@ -19,12 +19,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/webpack-configurations.html#white-listing-externals
  */
 let whiteListedModules = ['vue']
+var lang = require('highlight.js-async-webpack/src/file.lang.hljs.js');
+var entry= {
+    renderer: path.join(__dirname, '../src/renderer/main.js')
+};
+for (var i = 0; i < lang.length; i++) {
+    entry[lang[i]] = ['mavon-editor/dist/js/' + lang[i] + '.js']
+}
 
 let rendererConfig = {
   devtool: '#cheap-module-eval-source-map',
-  entry: {
-    renderer: path.join(__dirname, '../src/renderer/main.js')
-  },
+  entry,
   externals: [
     ...Object.keys(dependencies || {}).filter(d => !whiteListedModules.includes(d))
   ],

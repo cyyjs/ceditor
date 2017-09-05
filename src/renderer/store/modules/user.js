@@ -1,20 +1,23 @@
 'use strict'
 let token = localStorage.getItem('token')
-let user
+let user, userID
 try {
   user = JSON.parse(localStorage.getItem('user'))
+  userID = user.id
 } catch (e) {
   user = {}
 }
 const state = {
   token,
-  user
+  user,
+  userID
 }
 
 const mutations = {
   SET_USER (state, data) {
     state.user = data
     localStorage.setItem('user', JSON.stringify(data))
+    localStorage.setItem('userID', data.id)
   },
   SET_TOKEN (state, token) {
     state.token = token

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <left-nav v-if="$route.path !== '/login'"></left-nav>
-    <div :class="mainClass">
+    <div :class="mainClass" id="main-right">
       <router-view></router-view>
     </div>
   </div>
@@ -21,13 +21,14 @@
         openNav: ({sys}) => sys.openNav || false
       }),
       mainClass () {
-        return this.$route.path !== '/login' && this.openNav ? 'left' : 'main'
+        return this.$route.path !== '/login' && this.openNav ? 'main-right' : 'main'
       }
     },
     methods: {
-      ...mapActions(['setUser', 'setToken'])
+      ...mapActions(['setUser', 'setToken', 'initNote'])
     },
-    mounted () {
+    async mounted () {
+      await this.initNote()
       ipcRenderer.on('logined', (event, data) => {
         this.setUser(data.user)
         this.setToken(data.token)
@@ -41,8 +42,16 @@
     margin-left: 0px;
     transition: all .45s cubic-bezier(.23, 1, 1, 1);
   }
-  .left{
-    margin-left: 80px;
+  .main-right{
+    margin-left: 70px;
     transition: all .45s cubic-bezier(.23, 1, 1, 1);
+  }
+  #main-right{
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: -2;
   }
 </style>

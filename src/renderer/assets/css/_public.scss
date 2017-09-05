@@ -1,5 +1,5 @@
-body{
-    font-family: "SF Pro SC","SF Pro Text","SF Pro Icons","PingFang SC","Helvetica Neue","Helvetica","Arial",sans-serif;
+body {
+    font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 .icon {
@@ -9,13 +9,16 @@ body{
     fill: currentColor;
     overflow: hidden;
 }
-.drag{
+
+.drag {
     -webkit-app-region: drag;
 }
-.center{
+
+.center {
     text-align: center;
 }
-.right{
+
+.right {
     float: right;
 }
 
@@ -26,16 +29,59 @@ body{
 #left-nav {
     & .mu-item {
         color: #fff;
-        padding: 10px;
+        padding: 5px;
         text-align: center;
         font-size: 1.8rem;
     }
     &>div {
-        padding-top: 20px;
+        padding-top: 10px;
     }
 
-    .close .mu-icon{
-      font-size: 2rem;
+    .close .mu-icon {
+        font-size: 2rem;
+    }
+}
+
+.noteList>div {
+    cursor: pointer;
+}
+
+.clearfix:after {
+    content: ' ';
+    clear: both;
+    display: block;
+}
+
+.multiselect__tags {
+    white-space: nowrap;
+    min-height: 30px;
+    padding: 2px 30px 2px 5px;
+    & .multiselect__input,
+    .multiselect__single {
+        margin-bottom: 0;
+    }
+}
+.multiselect__tag{
+    margin-bottom: 0;
+}
+.multiselect__select {
+    height: 30px;
+    width: 30px;
+}
+.multiselect__option{
+    padding: 6px;
+    min-height: 30px;
+}
+.tags {
+    .multiselect__select{
+        display: none;
+    }
+    .multiselect__tags{
+        line-height: inherit;
+        min-height: 20px;
+        border: none;
+        background: none;
+        padding-top: 5px;
     }
 }
 

@@ -24,7 +24,7 @@ export default new Router({
       path: '/tags',
       component: tagList
     }, {
-      path: '/post',
+      path: '/post/:id?',
       component: post
     }, {
       path: '/setting',

@@ -23,6 +23,7 @@ function requestGithubToken (options, code) {
   }).then(res => {
     let data = res.data
     let user = {
+      id: data.id,
       name: data.name,
       avatarUrl: data.avatar_url,
       blog: data.blog,

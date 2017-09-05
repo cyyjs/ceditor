@@ -59,6 +59,8 @@ if (process.platform === 'darwin') {
       {type: 'separator'},
       {label: '服务', role: 'services', submenu: []},
       {type: 'separator'},
+      {id: 'github_login', label: 'GitHub 登录'},
+      {type: 'separator'},
       {label: '隐藏 ' + appName, role: 'hide'},
       {label: '隐藏其他', role: 'hideothers'},
       {label: '显示全部', role: 'unhide'},

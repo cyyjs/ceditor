@@ -8,6 +8,7 @@ import store from './store'
 import MuseUI from 'muse-ui'
 import 'muse-ui/dist/muse-ui.css'
 import 'muse-ui/dist/theme-teal.css'
+import 'vue-multiselect/dist/vue-multiselect.min.css'
 import './assets/css/main.scss'
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
