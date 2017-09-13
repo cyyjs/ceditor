@@ -6,8 +6,8 @@
             <mu-grid-tile v-for="post in list" :key="post._id" @click.native="$router.push('/post/' + post._id)">
               <img :src="post.image ? post.image : defaultImg"/>
               <span slot="title">{{post.title}}</span>
-              <span slot="subTitle">by <b>{{post.author}}</b></span>
-              <mu-icon-button icon="close" slot="action" @click.native="deleteNote(post._id)"/>
+              <span slot="subTitle"><b>{{post.type}}</b></span>
+              <mu-icon-button icon="close" slot="action" @click.native.stop="remove(post._id)"/>
             </mu-grid-tile>
           </mu-grid-list>
         </div>
@@ -21,7 +21,8 @@ export default {
   components: { TopHead },
   data () {
     return {
-      defaultImg: path.join(__dirname, '../../assets/img/timg.jpeg')
+      defaultImg: path.join(__dirname, '../../assets/img/timg.jpeg'),
+      type: ''
     }
   },
   computed: {
@@ -30,10 +31,27 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['getNoteList', 'deleteNote'])
+    ...mapActions(['getNoteList', 'deleteNote']),
+    remove (id) {
+      this.deleteNote(id)
+    }
+  },
+  watch: {
+    $route () {
+      this.getNoteList()
+    }
   },
   async mounted () {
-    await this.getNoteList()
+    this.type = this.$route.query.type
+    this.tag = this.$route.query.tag
+    let query = {}
+    if (this.type) {
+      query.type = this.type
+    }
+    if (this.tag) {
+      query.tags = this.tag
+    }
+    await this.getNoteList(query)
   }
 }
 </script>

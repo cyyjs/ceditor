@@ -1,8 +1,9 @@
 <template>
     <div>
+      <mu-circular-progress v-show="loading" class="progress" :size="60" :strokeWidth="5"/>
       <post-head v-model="postMate"></post-head>
       <div id="editor">
-          <mavon-editor placeholder="在此输入内容..." style="height: 100%" :subfield="false" :toolbars="toolbars" :default_open="defaultOpen" :ishljs="true" v-model="content" @save="save" @imgAdd="imgAdd" @imgDel="imgDel"></mavon-editor>
+          <mavon-editor ref="editor" placeholder="在此输入内容..." style="height: 100%" :subfield="false" :toolbars="toolbars" :default_open="defaultOpen" :ishljs="true" v-model="content" @save="save" @imgAdd="imgAdd"></mavon-editor>
       </div>
     </div>
 </template>
@@ -19,9 +20,11 @@ export default {
   },
   data () {
     return {
+      loading: false,
       defaultOpen: '',
       content: '',
       toolbars,
+      imgFile: {},
       postMate: {
         title: '',
         type: '',
@@ -33,7 +36,7 @@ export default {
 
   },
   methods: {
-    ...mapActions(['getNote', 'saveOrUpdateNote']),
+    ...mapActions(['getNote', 'saveOrUpdateNote', 'saveImg']),
     async init () {
       let id = this.$route.params.id
       if (id) {
@@ -58,21 +61,34 @@ export default {
       }
     },
     async save () {
-      let post = {
-        _id: this.$route.params.id || null,
-        ...this.postMate,
-        content: this.content
+      this.loading = true
+      let imgList = []
+      for (let k in this.imgFile) {
+        imgList.push([k, this.imgFile[k]])
       }
-      let r = await this.saveOrUpdateNote(post)
-      if (r) {
-        this.postMate.updated = new Date()
+      this.$refs.editor.$imglst2Url(imgList)
+      let save = async () => {
+        let post = {
+          _id: this.$route.params.id || null,
+          ...this.postMate,
+          content: this.content
+        }
+        let r = await this.saveOrUpdateNote(post)
+        if (r) {
+          this.postMate.updated = new Date()
+        }
+        this.loading = false
       }
+      setTimeout(() => {
+        save()
+      }, 500)
     },
-    imgAdd (pos, file) {
-      console.log(pos, file)
-    },
-    imgDel (pos) {
-      console.log(pos)
+    async imgAdd (pos, file) {
+      this.loading = true
+      let url = await this.saveImg(file)
+      this.imgFile[pos] = url
+      this.$refs.editor.$img2Url(pos, url)
+      this.loading = false
     }
   },
   watch: {
@@ -94,5 +110,11 @@ export default {
   right: 0;
   left: 0;
   z-index: -1;
+}
+.progress{
+  position: absolute;
+  left: 50%;
+  margin-left: -30px;
+  top: 10px;
 }
 </style>
