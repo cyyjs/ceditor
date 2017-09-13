@@ -1,5 +1,5 @@
 
-====
+
 > [语法详解](http://commonmark.org/help/)
 
 ## **粗体**
@@ -68,7 +68,7 @@ _斜体_
 ## 链接
 ```
 [链接](www.baidu.com)
-![图片描述](http://www.image.com)
+![图片描述](http://ow5l7f56h.bkt.clouddn.com/timg.jpeg)
 ```
 ## 代码段落
 \``` type
@@ -182,3 +182,4 @@ HTML 规范由 W3C 维护
 *[W3C]:  World Wide Web Consortium
 HTML 规范由 W3C 维护
 ```
+

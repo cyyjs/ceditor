@@ -21,14 +21,16 @@ export default {
   components: { TopHead },
   data () {
     return {
-      defaultImg: path.join(__dirname, '../../assets/img/timg.jpeg'),
       type: ''
     }
   },
   computed: {
     ...mapState({
       list: ({post}) => post.list
-    })
+    }),
+    defaultImg () {
+      return process.env.NODE_ENV === 'development' ? '../../../src/renderer/assets/img/timg.jpeg' : path.join(__static, 'img/timg.jpeg')
+    }
   },
   methods: {
     ...mapActions(['getNoteList', 'deleteNote']),

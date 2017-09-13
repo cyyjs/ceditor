@@ -44,7 +44,6 @@ export default {
       color: #fff;
       overflow: hidden;
       height: 360px;
-      background-image: url(~@/assets/img/timg.jpeg);
       padding: 30px;
       padding-top: 0;
       & .title{

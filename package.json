@@ -22,7 +22,7 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "ceditor",
+    "productName": "CEditor",
     "appId": "org.simulatedgreg.electron-vue",
     "directories": {
       "output": "build"

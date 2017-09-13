@@ -4,7 +4,7 @@ import UploadAPI from '../../../lib/upload'
 const fs = require('fs')
 const path = require('path')
 const Reg = /!\[[^[]*?\]\(\s*([^)|^\s]+)(?=\s*\))/g
-
+const defaultContent = fs.readFileSync(path.join(__static, 'default.md')).toString()
 const state = {
   list: []
 }
@@ -79,11 +79,12 @@ const actions = {
         title: '欢迎使用 CEditor',
         type: '默认分类',
         tags: ['markdown'],
-        content: fs.readFileSync(path.join(__filename, '../../default.md')).toString(),
+        content: defaultContent,
         created: new Date(),
         updated: new Date()
       }
       let r = await PostDB.insert(data)
+      dispatch('getNoteList')
       return r
     }
   }

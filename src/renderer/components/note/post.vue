@@ -1,8 +1,10 @@
 <template>
     <div>
-      <mu-circular-progress v-show="loading" class="progress" :size="60" :strokeWidth="5"/>
+      <div class="progress" v-show="loading">
+        <mu-circular-progress  :size="60" :strokeWidth="5"/>
+      </div>
       <post-head v-model="postMate"></post-head>
-      <div id="editor">
+      <div id="editor" @click="clickEditor">
           <mavon-editor ref="editor" placeholder="在此输入内容..." style="height: 100%" :subfield="false" :toolbars="toolbars" :default_open="defaultOpen" :ishljs="true" v-model="content" @save="save" @imgAdd="imgAdd"></mavon-editor>
       </div>
     </div>
@@ -89,6 +91,15 @@ export default {
       this.imgFile[pos] = url
       this.$refs.editor.$img2Url(pos, url)
       this.loading = false
+    },
+    clickEditor (event) {
+      event.stopPropagation()
+      event.preventDefault()
+      let ele = event.target
+      if (ele.tagName === 'A') {
+        let href = ele.getAttribute('href')
+        this.$openUrl(href)
+      }
     }
   },
   watch: {
