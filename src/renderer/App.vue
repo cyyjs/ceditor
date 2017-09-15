@@ -10,7 +10,6 @@
 <script>
   import {mapState, mapActions} from 'vuex'
   import LeftNav from './components/nav/leftNav.vue'
-  const {ipcRenderer} = require('electron')
   export default {
     name: 'ceditor',
     components: {
@@ -25,14 +24,10 @@
       }
     },
     methods: {
-      ...mapActions(['setUser', 'setToken', 'initNote'])
+      ...mapActions(['initNote'])
     },
     async mounted () {
       await this.initNote()
-      ipcRenderer.on('logined', (event, data) => {
-        this.setUser(data.user)
-        this.setToken(data.token)
-      })
     }
   }
 </script>

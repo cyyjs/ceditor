@@ -1,43 +1,70 @@
 <template>
-
-    <div class="top-head drag clearfix">
-        <input type="text" v-model="post.title" @change="change" placeholder="请输入标题..." class="title">
-        <div class="right">
-          <mu-icon-menu icon="more_vert" slot="right">
-            <mu-menu-item title="菜单 1"/>
-            <mu-menu-item title="菜单 2"/>
-            <mu-menu-item title="菜单 3"/>
-            <mu-menu-item title="菜单 4"/>
-            <mu-menu-item title="菜单 5"/>
-          </mu-icon-menu>
-        </div>
-        <div>
-          <span class="type-icon">
+  <div class="top-head drag clearfix">
+    <input type="text" v-model="post.title" @change="change" placeholder="请输入标题..." class="title">
+    <div class="right">
+      <mu-icon-menu icon="more_vert" slot="right" menuClass="rightMenu">
+        <mu-menu-item @click="$emit('menu', 'md')">
+          <span slot="title">
             <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-fenlei"></use>
+              <use xlink:href="#icon-md"></use>
             </svg>
+            导出 Markdown
           </span>
-          <multiselect class="select" @keyup.native="inputChange" v-model="post.type" :show-labels="false" placeholder="选择分类" :options="options" :allow-empty="false" @input="change">
-            <span slot="noResult">按Enter键新建</span>
-          </multiselect>
-          <span class="type-icon">
+        </mu-menu-item>
+        <mu-menu-item @click="$emit('menu', 'html')">
+          <span slot="title">
             <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-biaoqian"></use>
+              <use xlink:href="#icon-HTML"></use>
             </svg>
+            导出 HTML
           </span>
-          <multiselect class="tags" v-model="post.tags" tag-placeholder="" placeholder="搜索添加标签"  :options="tags" :multiple="true" :max="3" :hide-selected="true" select-label="选择标签" deselect-label="删除标签" :show-labels="false" :limit-text="limitText" :taggable="true" @tag="addTag" @input="change">
-            <span slot="noResult">按Enter键新建</span>
-            <span slot="maxElements">最多只能选择3个</span>
-          </multiselect>
-          <span class="time">
-            修改时间: {{updated}}
+        </mu-menu-item>
+        <mu-menu-item @click="$emit('menu', 'pdf')">
+          <span slot="title">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-pdf1"></use>
+            </svg>
+            导出 PDF
           </span>
-        </div>
+        </mu-menu-item>
+        <mu-divider />
+        <mu-menu-item @click="$emit('menu', 'hexo')">
+          <span slot="title">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-fe-hexo"></use>
+            </svg>
+            发布到博客
+          </span>
+        </mu-menu-item>
+      </mu-icon-menu>
     </div>
+    <div>
+      <span class="type-icon">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-fenlei"></use>
+        </svg>
+      </span>
+      <multiselect class="select" @keyup.native="inputChange" v-model="post.type" :show-labels="false" placeholder="选择分类" :options="options" :allow-empty="false" @input="change">
+        <span slot="noResult">按Enter键新建</span>
+      </multiselect>
+      <span class="type-icon">
+        <svg class="icon" aria-hidden="true">
+          <use xlink:href="#icon-biaoqian"></use>
+        </svg>
+      </span>
+      <multiselect class="tags" v-model="post.tags" tag-placeholder="" placeholder="搜索添加标签" :options="tags" :multiple="true" :max="3" :hide-selected="true" select-label="选择标签" deselect-label="删除标签" :show-labels="false" :limit-text="limitText" :taggable="true" @tag="addTag" @input="change">
+        <span slot="noResult">按Enter键新建</span>
+        <span slot="maxElements">最多只能选择3个</span>
+      </multiselect>
+      <span class="time">
+        修改时间: {{updated}}
+      </span>
+    </div>
+  </div>
 </template>
 <script>
 import Multiselect from 'vue-multiselect'
-import {mapActions} from 'vuex'
+import { mapActions } from 'vuex'
 import moment from 'moment'
 export default {
   props: {
@@ -117,13 +144,19 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-.top-head{
+.top-head {
   border-bottom: 1px solid #ddd;
   background-color: #eee;
   color: #333;
   padding: 0 10px;
 }
-.title{
+.rightMenu {
+  width: 200px;
+  & .icon{
+    font-size: 20px;
+  }
+}
+.title {
   margin: 10px;
   outline: none;
   border: none;
@@ -132,7 +165,8 @@ export default {
   font-weight: bold;
   width: 80%;
 }
-.select{
+
+.select {
   width: 120px;
   float: left;
   margin-left: 10px;
@@ -143,13 +177,15 @@ export default {
   margin-left: 10px;
   width: 300px;
 }
-.type-icon{
+
+.type-icon {
   float: left;
   margin-left: 10px;
   color: #666;
   line-height: 30px;
 }
-.time{
+
+.time {
   color: #666;
   font-size: 0.8rem;
   float: right;

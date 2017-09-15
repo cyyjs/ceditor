@@ -17,9 +17,7 @@ function requestGithubToken (options, code) {
   }).then(res => {
     let data = Qs.parse(res.data)
     token = data.access_token
-    return axios.get('https://api.github.com/user', {headers: {'Authorization': 'bearer ' + token}})
-    // ipcMain.emit('')
-    // window.localStorage.setItem('githubtoken', response.body.access_token)
+    return axios.get('https://api.github.com/user', { headers: { 'Authorization': 'bearer ' + token } })
   }).then(res => {
     let data = res.data
     let user = {
@@ -46,7 +44,16 @@ function requestGithubToken (options, code) {
 }
 
 function OAuthWin () {
-  let win = new BrowserWindow({ width: 800, height: 600, show: false, nodeIntegration: false })
+  let win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    nodeIntegration: false,
+    fullscreen: false,
+    minimizable: false,
+    maximizable: false,
+    resizable: false,
+    alwaysOnTop: true
+  })
   let authUrl = Config.githubUrl + 'client_id=' + options.client_id + '&scope=' + options.scopes
   win.loadURL(authUrl)
 
@@ -61,8 +68,7 @@ function OAuthWin () {
 
     if (code) {
       requestGithubToken(options, code)
-    } else if (error) {
-    }
+    } else if (error) {}
   }
 
   win.webContents.on('will-navigate', function (event, url) {
@@ -72,12 +78,9 @@ function OAuthWin () {
   win.webContents.on('did-get-redirect-request', function (event, oldUrl, newUrl) {
     handleCallback(newUrl)
   })
-
   win.on('close', function () {
+    ipcMain.emit('loginClose')
     win = null
-  })
-  ipcMain.on('oauth', function (event, arg) {
-    win.show()
   })
   return win
 }

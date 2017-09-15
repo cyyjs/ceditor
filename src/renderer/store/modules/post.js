@@ -1,6 +1,7 @@
 'use strict'
 import {PostDB} from '../db'
 import UploadAPI from '../../../lib/upload'
+import Io from '../../../lib/io'
 const fs = require('fs')
 const path = require('path')
 const Reg = /!\[[^[]*?\]\(\s*([^)|^\s]+)(?=\s*\))/g
@@ -16,15 +17,21 @@ const mutations = {
 }
 
 const actions = {
+
+  // 保存上传图片
   async saveImg ({ commit }, file) {
     let result = await UploadAPI.upload(file)
     return result
   },
+
+  // 获取文章列表
   async getNoteList ({ commit }, query = {}) {
     let data = await PostDB.find(query)
     commit('SET_NOTE_LIST', data)
     return data
   },
+
+  // 保存文章
   async saveNote ({commit, dispatch}, post) {
     let userID = localStorage.getItem('userID')
     post.userID = userID
@@ -39,11 +46,13 @@ const actions = {
     return r
   },
 
+  // 获取某个文章
   async getNote ({commit}, _id) {
     let post = await PostDB.findOne({_id})
     return post
   },
 
+  // 保存或修改文章
   async saveOrUpdateNote ({commit, dispatch}, post) {
     post.updated = new Date()
     let img = Reg.exec(post.content)
@@ -64,12 +73,19 @@ const actions = {
     return r
   },
 
+  // 删除文章
   async deleteNote ({commit, dispatch}, _id) {
     let r = await PostDB.remove({_id})
     dispatch('getNoteList')
     return r
   },
 
+  // 文件导出
+  exportFile ({commit}, data) {
+    Io.export(data)
+  },
+
+  // 初始化文章
   async initNote ({dispatch}) {
     let count = await PostDB.count({})
     if (!count) {

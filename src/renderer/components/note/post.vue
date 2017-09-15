@@ -3,7 +3,7 @@
       <div class="progress" v-show="loading">
         <mu-circular-progress  :size="60" :strokeWidth="5"/>
       </div>
-      <post-head v-model="postMate"></post-head>
+      <post-head v-model="postMate" @menu="clickMenu"></post-head>
       <div id="editor" @click="clickEditor">
           <mavon-editor ref="editor" placeholder="在此输入内容..." style="height: 100%" :subfield="false" :toolbars="toolbars" :default_open="defaultOpen" :ishljs="true" v-model="content" @save="save" @imgAdd="imgAdd"></mavon-editor>
       </div>
@@ -38,7 +38,7 @@ export default {
 
   },
   methods: {
-    ...mapActions(['getNote', 'saveOrUpdateNote', 'saveImg']),
+    ...mapActions(['getNote', 'saveOrUpdateNote', 'saveImg', 'exportFile']),
     async init () {
       let id = this.$route.params.id
       if (id) {
@@ -100,6 +100,14 @@ export default {
         let href = ele.getAttribute('href')
         this.$openUrl(href)
       }
+    },
+    clickMenu (t) {
+      this.exportFile({
+        type: t,
+        mk: this.content,
+        postMate: this.postMate,
+        html: this.$refs.editor.d_render
+      })
     }
   },
   watch: {

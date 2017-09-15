@@ -17,7 +17,6 @@ global.__winurl = process.env.NODE_ENV === 'development'
   : `file://${__dirname}/index.html`
 let mainWindow, tray
 function createWindow () {
-  OAuthWin()
   /**
    * Initial window options
    */
@@ -47,10 +46,13 @@ function createWindow () {
   // })
   Message.init()
   ipcMain.on('logined', function (data) {
-    // loginWin.close()
-    // mainWindow.loadURL(__winurl)
-    // mainWindow.show()
     mainWindow.webContents.send('logined', data)
+  })
+  ipcMain.on('loginClose', function (data) {
+    mainWindow.webContents.send('loginClose')
+  })
+  ipcMain.on('oauth', function (event, arg) {
+    OAuthWin()
   })
 }
 

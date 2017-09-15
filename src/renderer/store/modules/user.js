@@ -31,6 +31,10 @@ const actions = {
   },
   setToken ({ commit }, data) {
     commit('SET_TOKEN', data)
+  },
+  logOut ({ commit }) {
+    commit('SET_USER', {})
+    commit('SET_TOKEN', '')
   }
 }
 
