@@ -1,31 +1,13 @@
-# ceditor
+# CEditor
+<p align="center"><a href="" target="_blank"><img width="100" src="https://user-images.githubusercontent.com/2883079/30476719-7dd4a6f4-99d0-11e7-854e-66fed654f1cd.png"></a></p>
 
-> An electron-vue project
+<p align="center">
+  <a href=""><img src="https://img.shields.io/badge/platform-osx-brightgreen.svg" alt="platform"></a>
+  <a href=""><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="platform"></a>
+</p>
 
-#### Build Setup
+CEditor 是一个Markdown编辑器。
 
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:9080
-npm run dev
-
-# build electron application for production
-npm run build
-
-# run unit & end-to-end tests
-npm test
-
-
-# lint all JS/Vue component files in `src/`
-npm run lint
-
-```
-
----
-
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[e04a5b5](https://github.com/SimulatedGREG/electron-vue/tree/e04a5b5f09f63265939e00c9dc59a612d9da5bc8) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
 ## License
 
 [MIT](https://github.com/cyy0418/ceditor/blob/master/LICENSE.md)
