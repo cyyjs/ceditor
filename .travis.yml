@@ -1,5 +1,3 @@
-# Commented sections below can be used to run tests on the CI server
-# https://simulatedgreg.gitbooks.io/electron-vue/content/en/testing.html#on-the-subject-of-ci-testing
 osx_image: xcode8.3
 sudo: required
 dist: trusty
@@ -13,31 +11,35 @@ matrix:
 cache:
   directories:
   - node_modules
-  - "$HOME/.electron"
-  - "$HOME/.cache"
+  - $HOME/.electron
+  - $HOME/.cache
 addons:
   apt:
     packages:
     - libgnome-keyring-dev
     - icnsutils
-    #- xvfb
 before_install:
 - mkdir -p /tmp/git-lfs && curl -L https://github.com/github/git-lfs/releases/download/v1.2.1/git-lfs-$([
   "$TRAVIS_OS_NAME" == "linux" ] && echo "linux" || echo "darwin")-amd64-1.2.1.tar.gz
   | tar -xz -C /tmp/git-lfs --strip-components 1 && /tmp/git-lfs/git-lfs pull
-- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install --no-install-recommends -y icnsutils graphicsmagick xz-utils; fi
+- if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo apt-get install --no-install-recommends
+  -y icnsutils graphicsmagick xz-utils; fi
 install:
-#- export DISPLAY=':99.0'
-#- Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
 - nvm install 7
 - curl -o- -L https://yarnpkg.com/install.sh | bash
 - source ~/.bashrc
 - npm install -g xvfb-maybe
 - yarn
 script:
-#- xvfb-maybe node_modules/.bin/karma start test/unit/karma.conf.js
-#- yarn run pack && xvfb-maybe node_modules/.bin/mocha test/e2e
 - yarn run build
 branches:
   only:
   - master
+env:
+  global:
+  - secure: kkNcw+8Yzu8BQn2EEvdmNW/vHHHTjmI32yVGfg7H1N/7AU+5oh46mpLagLrDrolw0ATCgkgd6WGRIN+/sH39EQfNHCh+DuXSVzr1aip1tBp1lEk5X9k+oT0Sd0gGiDUf7hWcvSe5zQJNsyaQmGwxv/RDTVLpoPU3d5iqNhMICwVH/wMXk9MRR/slSOPPr+nXeHr2UYDtPL1d0FCDOzrEyA8vKR74OcqgWzJs5wnULAvLpAlZw8u2D9QTmVaMGOTWgATM7OsbEJJhpiWJcNiACnsmG+QcSjDnUKKemvV2U9LcQ3wlFZTjR3zmxyrosSRDQ2CGnv7N8ZC/ymu3U2k9DGoQbM05Mk5qZ5IQ2Pho53JZx4QzswwiJHO71T97C8PmY3bdAsMS5cs4QGyd20/hAkYREL/Wiv0AZsYNclyxkkaqQgOzSA5Q+Pq0q6p1aCHfjEHaoQuObHS9urqr2vJFEPPQJYDbI3tLn5LQw4+s2XS2ccFnuymQkc1K2BdYJj+odwBwPn+9rklAWnBD9lhEIojxSwwk3NA0M0NDi+ogWoslXcANkb4fu4x60E5nHvVKDjGG4qSqUg9Xv07PQax55eehxpL7QD9vdhb0mNXT8Dg1OU5nqP52RxNXF40PFq2ZBei/kN9iHWd8r6GBBEeFO1QL7slr1OWjqjpSdJ6DU44=
+  - secure: gx59TlC1TukryY6hNRwr4GPvm9CF2yaEzbY7vz0jKtOe04sBHUou7Qt6EoCUBkJ+LpeyqD5iWeG5IKqpICdo4UxLtp5B5tMqxBQN9grJ/AA/PZbmzgFzRq1iLysZAASATy5lwauVHLI6YM1FNd5jQ7tXEHbjy0l61aJzF6RjY83TXMJcN/KkNnXXSi0MrNGfVzviosZGXt+IxoA9fOArV+p3p8B+9gsKfi+N+S91tTpm5LX2HqchYTJ7zJR3/3pDCjipWmvfHnYjVpyom9LzvvRVADETO25SUxaHpS49FzUPxUJB5TYiM2OPQ9sJt9sifoQHHx8ieJ/Go2gz3J8M4tx6bC62HJ4z50r0zaG9d4lC3lyqx0S6KuBnCe0ilImSizss3NKUKhlBC45VkPD8xC7jDhMfuAlEiqdzFA0pCAlIKkgde+JKWemTpWSFlsNmREqk7LQdSG/7Y88PzcjUiFzjV4Fssee+cysruqsYv0xS02mbKuv2BKXLb4i6fVLiIsFRbUtMwoacpsJQmtHYuPQHUT/TYhwxSPVylqw+qQ9KbKudtCid/DTdWwVeLWfP31D4f+dFZ70PVkC/iUyeYUWsA7sz+e9jsf+va+qFVRpi17+EEEaP/Kl7x0EbEY6hi3eqbh4W2hhUm0wiZeWO3i5g9+FPlH6AwBicLMYlcjI=
+  - secure: vwt4l72neENfTLYoKtdsUctbpCAe0Hzc4tX0k0ChrfnF+xpA9l4+1F8Y5Ir/1oS4Y5ChXG78/LNIk8WUX2T2yaZSd0qXNb7Tuh3L9loG1x07YsWrf34KTjKSXlkVHU6+NCGaVRWSGyaCBUwQXFvSrt+7ZDFIr5q8JiEGuXujKmFTqWM2+T3xSw2EscZocL6TD4GpJuhSMHh8FFdpkolhXqcz5xwDD/mA8TYK1GlOOWnnlfRgi6tOTTPtOlbFTiaqOBvf2adhUXd1WSU3CWOhiQVZHu/VteJHhy7OT2+GLm8njYU3CZ1ZWuYeqzBLxSFLKBoJhyXK5CJjbzSgblEcHnbph9jZMRDCHTC6DNQFgPLp/li29bS43gg5VLke6CUyfp9ovr7hdWdxokfc7nJQ0XU/Cqj+n9vea8ySvs5o0Dfrwwc7HQM2FbKYmts8xtnJ/o+IFKGElVqrEQuzHlCv/423H5TrpkWLza+vxHXcHxAbNhVZpa4yyr9T3cbP65js/2ggAV4eW+Kd3WPxUiL3rLXgv2hMFeX6HquidRpzEm8gSFS6DFan2Mw98CofO9yT5oHoPR60Ea03bGHKj5rNn6Q8zzSPQnmY+9tjRxylbRwJIOGuNfH2ursKIr0vtPP38ue6aMNW58/wVBAbjKSqdq5Appo3oiM/Rr00lo2fXwc=
+  - secure: CYGCpQLDhNdpLEKA6PGZUrASPlh/6K4khn6J79dM/8w7D6YPZ0MPBeV64UY950LknMYjg5zk2lUimPpjNwJzr5OgCHOAg6pHUd3MCpYREAXJxPzCrQuSaltanI1BANg8zo+AX7YZFHuY+04rnOGgwJ5UugSJ74zJ2HAOOFqYtAfD8+kd/CrQ1ykPflNhm4NyJqo8800SYKfGRitH/IZdgXeIInCHCMZEL0K9QJpNv1IJqbVShrBAvheiNGKpAfNZ2qE8yBGklGGfuTjW+y5kxFY9C86T2++u5bxEASbKL2ZMSpEMlQABzgwdOpVFhUXAB4sQVE5WbRNZTPxJEOaQTzWANjG7i/hkvQWCMwJJlzpfLFMQa1RkiD+zHtW0qopd6LGmFAE17kluWRzEQ2cVJ48Q/A1gmEBFt2VKf+d4ZJn75XD2xModV+JeCtnzqbAApKfp+TsvRQtbfvE+Zcw7N+zehA+7SZ0sOdBzee6LQ4AZJv9tFpLsn2f2IGmr/X+ZTbJ/QSYmxY2u/prsb/BgfRTjvU7O3b//CvRMBsZmH/E9sY6VQDERrisQ29qCbBxfpq7378GJuCvhtqvawlxHCpP5fXgSJ4w/C33POFo59KjEKNXryH+csQJ1f651SPDPge0ceN4gkJwQM6Hf9aMale045oj8tHEpeJo7V0ANHxw=
+  - secure: NAPmnKMlX/0HJzi933I0o0+/I87+CIPS97FtkpdkjJcsCu06GTvgnU49O/UytmE4xYDS+g3RGXIE/Uo/vOJuiAabJIvENS18dNJ0sXLJZwgPeo+CnOmAwQzOD92jPytR9a1uErg6Fcjum0kuUzS+io/+V+Mg08HynY1YDhT+CyNraN2NJ5IySg7whhWnombQUA8I4v6yx3uWHzy3KSh26rCtzIHtcE0Tlk9CIULBmhiNA4fpyy4l7AAO9TlcRIqsvT389Sn38Pu5omP7DD1i+4fYwGkODnc4cyXyrjiuSQapE2Znx54iCKVJLAg6EXrnz/4JUi2EbbjHRww2r5BGayirGwTj8g38s6t1l/L4pmdgDBHnNPZtumG01QNP1IJKVChzXENC46aspfVfEWnGHEe0MKF9h3lIPRiUW5jBhCkFxvgGwhjF+c52hwE9m5RJWKL08FOI8ppKx2YBCWnGTnheMhqF9RrWr7H8lohfdLEa+Jd1EXACUtoTMY/0yc0O3cDh2t1NYXaln7mgd/pk4oEiY8tL62MAXh187V/8hnbGrzc3T/36I5cO2CaueBzvTi+mIjRIsp3uyOjfqZSoI2WUOnnXI66O5PCT2/RvffxhCeJNZOsW3LXzJcvHQG2C4FpNb0njZl73JkKmGFk8kfP2/jWMksmsp525m3t+cWw=
+  - secure: p3S+GYN2bGI2fXPfSR6aJwrlHTKGddY1Gja2E1buhN4neKHIceR8FXvVFvtgPcJ65e1faSHi6svUSTRPML+EoAWS8Jaono9U1ebv4+/bt6HILjuhe1cjlXGu+dB5JdJNC3Th3L85yCz3sIr2TJVUCf2Mn/YsWq8YMbMqthU3w7zaiGW+5sQ3kK3plZW4zskOdtmUtdoeO1RH7YMw0bnhlMAFu/x82xqg2CSsOoWqNK1vuzHY8Hu7wqlBcQnuGY55MGbtWeVCNbSXQfXOhG4dtKeLcN7NAzKe+QZ22GWNy3pyN/xNTLHZQLDd413pI4bXahclT88Ua8fCOVy2nvi+y3xh3no3eMkuJE8ZGQDqd1D+2GB4MB1fKoHOPVejgzuLguLSNYWTDrzHELe4CC91yDTYubE+t+E4sIAr2rP2FzHAMuxZSBkgwTF/mfvCzESdPn+xDTXyq5K8etN0uvTyhIAUkd13BaisjvEYPkQxd1752bKCxuBn1FfE7qeU8F4U2kpw7APpvt6mDkhIxzWmk5boYnbtdJMQEKLnG/oze07hSgBxndpf5Qa/jhZZgMCHG1hiX44kXaQY7whUQgdwB7WDyVzuj7JtsHINTnw5DGa3KpnqMEYMxajcFibT4XA5cE/RSf+MqLEq/OmpqLtuD5p/gfS+oU1QEZAx6OFzXqA=
