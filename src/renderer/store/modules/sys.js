@@ -1,4 +1,5 @@
 'use strict'
+import { ipcRenderer } from 'electron'
 const state = {
   openNav: true
 }
@@ -12,6 +13,9 @@ const mutations = {
 const actions = {
   openNav ({ commit }, flag) {
     commit('OPEN_NAV', flag)
+  },
+  sendMessage ({ commit }, opt) {
+    ipcRenderer.send('message', opt)
   }
 }
 

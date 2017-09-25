@@ -1,8 +1,10 @@
 'use strict'
+import Blog from './blog'
 const { dialog, BrowserWindow, app } = require('electron').remote
 const fs = require('fs')
 const path = require('path')
 const userDataPath = app.getPath('userData')
+const moment = require('moment')
 
 // 获取保存路径
 function selectPathForWrite (filters, filename = '未命名') {
@@ -44,12 +46,19 @@ function getHtml (title, body) {
 
 export default class {
   // 导出文件
-  static
-  export ({ postMate, type, mk, html }) {
+  static async export ({ _id, postMate, type, mk, html }, user) {
     var filters = [{
       name: postMate.title,
       extensions: [type]
     }]
+    if (type === 'hexo') {
+      let date = moment().format('YYYY-MM-DD HH:mm:ss')
+      let body = `---\ncategory: ${postMate.category}\ntitle: ${(postMate.title || '').trim()}\ndate: ${date}\ntags: ${JSON.stringify(postMate.tags || [])}\n---\n\n${(mk || '').trim()}`
+      // console.log(body)
+      let r = await Blog.publish(body, _id, user)
+      return r
+    }
+
     let filePath = selectPathForWrite(filters, postMate.title)
     if (!filePath) {
       return
@@ -82,5 +91,18 @@ export default class {
         })
       })
     }
+  }
+  // 获取目录
+  static getPath () {
+    let path = dialog.showOpenDialog({
+      properties: ['createDirectory', 'openDirectory'],
+      buttonLabel: '选择'
+    })
+    return path
+  }
+
+  static async dePublish (_id, user) {
+    let r = await Blog.dePublish(_id, user)
+    return r
   }
 }

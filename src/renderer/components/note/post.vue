@@ -1,20 +1,21 @@
 <template>
     <div>
       <div class="progress" v-show="loading">
-        <mu-circular-progress  :size="60" :strokeWidth="5"/>
+        <mu-circular-progress  :size="40" :strokeWidth="5"/>
       </div>
-      <post-head v-model="postMate" @menu="clickMenu"></post-head>
+      <post-head v-model="postMate" @change="saveCom" :note="post" @menu="clickMenu"></post-head>
       <div id="editor" @click="clickEditor">
           <mavon-editor ref="editor" placeholder="在此输入内容..." style="height: 100%" :subfield="false" :toolbars="toolbars" :default_open="defaultOpen" :ishljs="true" v-model="content" @save="save" @imgAdd="imgAdd"></mavon-editor>
       </div>
     </div>
 </template>
 <script>
-import {mapActions} from 'vuex'
+import {mapActions, mapState} from 'vuex'
 import { mavonEditor } from 'mavon-editor'
 import PostHead from './postHead.vue'
 import 'mavon-editor/dist/css/index.css'
 const toolbars = require('../../config.json').toolbars
+let timer = null
 export default {
   components: {
     mavonEditor,
@@ -23,31 +24,35 @@ export default {
   data () {
     return {
       loading: false,
+      _id: null,
       defaultOpen: '',
       content: '',
       toolbars,
       imgFile: {},
       postMate: {
         title: '',
-        type: '',
+        category: '',
         tags: []
       }
     }
   },
   computed: {
-
+    ...mapState({
+      post: ({post}) => post.post
+    })
   },
   methods: {
     ...mapActions(['getNote', 'saveOrUpdateNote', 'saveImg', 'exportFile']),
     async init () {
-      let id = this.$route.params.id
-      if (id) {
-        let post = await this.getNote(id)
+      this._id = this.$route.params.id
+      if (this._id) {
+        let post = await this.getNote(this._id)
         this.postMate = {
           title: post.title,
-          type: post.type,
+          category: post.category,
           tags: post.tags,
-          updated: post.updated
+          updated: post.updated,
+          date: post.date
         }
         this.defaultOpen = 'preview'
         this.content = post.content
@@ -55,35 +60,43 @@ export default {
         this.defaultOpen = 'edit'
         this.postMate = {
           title: '',
-          type: '',
+          category: '',
           tags: [],
-          updated: new Date()
+          updated: new Date(),
+          date: new Date()
         }
         this.content = ''
       }
     },
     async save () {
       this.loading = true
-      let imgList = []
-      for (let k in this.imgFile) {
-        imgList.push([k, this.imgFile[k]])
-      }
-      this.$refs.editor.$imglst2Url(imgList)
       let save = async () => {
-        let post = {
-          _id: this.$route.params.id || null,
-          ...this.postMate,
-          content: this.content
-        }
-        let r = await this.saveOrUpdateNote(post)
-        if (r) {
-          this.postMate.updated = new Date()
-        }
+        await this.saveCom()
         this.loading = false
       }
       setTimeout(() => {
         save()
       }, 500)
+    },
+    async saveCom () {
+      let imgList = []
+      for (let k in this.imgFile) {
+        imgList.push([k, this.imgFile[k]])
+      }
+      this.$refs.editor.$imglst2Url(imgList)
+      let post = {
+        _id: this._id,
+        ...this.postMate,
+        content: this.content
+      }
+      let r = await this.saveOrUpdateNote(post)
+      if (r) {
+        this.postMate.updated = new Date()
+        if (r._id) {
+          this._id = r._id
+          await this.getNote(this._id)
+        }
+      }
     },
     async imgAdd (pos, file) {
       this.loading = true
@@ -101,8 +114,10 @@ export default {
         this.$openUrl(href)
       }
     },
-    clickMenu (t) {
+    async clickMenu (t) {
+      await this.save()
       this.exportFile({
+        _id: this._id,
         type: t,
         mk: this.content,
         postMate: this.postMate,
@@ -117,6 +132,14 @@ export default {
   },
   async mounted () {
     await this.init()
+    clearInterval(timer)
+    timer = setInterval(() => {
+      if (this.$route.path.includes('/post')) {
+        this.saveCom()
+      } else {
+        clearInterval(timer)
+      }
+    }, 60000)
   }
 }
 </script>

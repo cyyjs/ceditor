@@ -19,6 +19,17 @@ const actions = {
     let tags = _.union(...data.map(i => i.tags))
     commit('SET_TAGS_LIST', tags)
     return tags
+  },
+  async getTagListMap ({ commit }) {
+    let data = await PostDB.find({}, {tags: 1})
+    let map = {}
+    data.forEach(item => {
+      item.tags.forEach(t => {
+        map[t] = map[t] || 0
+        map[t]++
+      })
+    })
+    return map
   }
 }
 

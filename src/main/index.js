@@ -1,6 +1,6 @@
 'use strict'
 
-import { app, BrowserWindow, Menu, Tray, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 
 import {MyMenu, OAuthWin, Message} from '../lib'
 
@@ -15,7 +15,7 @@ if (process.env.NODE_ENV !== 'development') {
 global.__winurl = process.env.NODE_ENV === 'development'
   ? 'http://localhost:9080'
   : `file://${__dirname}/index.html`
-let mainWindow, tray
+let mainWindow
 function createWindow () {
   /**
    * Initial window options
@@ -30,7 +30,7 @@ function createWindow () {
     minHeight: 720,
     show: false
   })
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
   mainWindow.loadURL(__winurl)
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
@@ -66,13 +66,13 @@ function showMainWindow () {
 
 app.on('ready', () => {
   createWindow()
-  tray = new Tray(__static + '/img/c1.png')
-  const contextMenu = Menu.buildFromTemplate([
-    {label: '显示主界面', click: showMainWindow},
-    {label: '退出', click: function () { app.quit() }}
-  ])
-  tray.setToolTip(app.getName())
-  tray.setContextMenu(contextMenu)
+  // tray = new Tray(__static + '/img/c1.png')
+  // const contextMenu = Menu.buildFromTemplate([
+  //   {label: '显示主界面', click: showMainWindow},
+  //   {label: '退出', click: function () { app.quit() }}
+  // ])
+  // tray.setToolTip(app.getName())
+  // tray.setContextMenu(contextMenu)
 })
 
 app.on('window-all-closed', () => {

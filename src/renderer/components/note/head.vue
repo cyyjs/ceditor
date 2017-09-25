@@ -52,7 +52,7 @@ export default {
     ...mapActions(['getTypeList', 'getTagList']),
     change () {
       this.$emit('change', {
-        type: this.postType,
+        category: this.postType,
         tag: this.tag
       })
     }
@@ -60,6 +60,8 @@ export default {
   async mounted () {
     await this.getTypeList()
     await this.getTagList()
+    this.postType = this.$route.query.category
+    this.tag = this.$route.query.tag
   }
 }
 </script>

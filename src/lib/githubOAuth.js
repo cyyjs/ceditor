@@ -5,7 +5,7 @@ import axios from 'axios'
 let options = {
   client_id: Config.ClientID,
   client_secret: Config.ClientSecret,
-  scopes: ['user:email'] // Scopes limit access for OAuth tokens.
+  scopes: ['user:email', 'public_repo'] // Scopes limit access for OAuth tokens.
 }
 
 function requestGithubToken (options, code) {
@@ -28,7 +28,8 @@ function requestGithubToken (options, code) {
       email: data.email,
       location: data.location,
       bio: data.bio,
-      githubAccount: data.login
+      githubAccount: data.login,
+      githubToken: token
     }
     ipcMain.emit('logined', {
       token,

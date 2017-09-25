@@ -15,10 +15,20 @@ const mutations = {
 const actions = {
   async getTypeList ({ commit }) {
     // let userID = localStorage.getItem('userID')
-    let data = await PostDB.find({}, {type: 1})
-    let types = _.uniq(data.map(i => i.type)).filter(i => !!i)
+    let data = await PostDB.find({}, {category: 1})
+    let types = _.uniq(data.map(i => i.category)).filter(i => !!i)
     commit('SET_TYPE_LIST', types)
     return types
+  },
+  // 类型对应文章个数
+  async getTypeListMap ({ commit }) {
+    let data = await PostDB.find({}, {category: 1})
+    let map = {}
+    data.forEach(item => {
+      map[item.category] = map[item.category] || 0
+      map[item.category]++
+    })
+    return map
   }
 }
 

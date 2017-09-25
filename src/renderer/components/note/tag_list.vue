@@ -2,30 +2,28 @@
     <div>
         <top-head title="分类列表"></top-head>
         <div class="list">
-          <mu-chip class="chip" backgroundColor="teal500" color="#fff" v-for="tag in tags" :key="tag" @click.native="$router.push('/?tag='+tag)">
-            {{tag}}
+          <mu-chip class="chip" backgroundColor="teal500" color="#fff" v-for="(v, k) in tagMap" :key="k" @click.native="$router.push('/?tag='+k)">
+            {{k}}
+            <mu-badge :content="String(v)" class="icon-badge" circle/>
           </mu-chip>
         </div>
     </div>
 </template>
 <script>
 import TopHead from './head.vue'
-import { mapState, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   components: { TopHead },
   data () {
-    return {}
-  },
-  computed: {
-    ...mapState({
-      tags: ({tags}) => tags.tags
-    })
+    return {
+      tagMap: {}
+    }
   },
   methods: {
-    ...mapActions(['getTagList'])
+    ...mapActions(['getTagListMap'])
   },
   async mounted () {
-    await this.getTagList()
+    this.tagMap = await this.getTagListMap()
   }
 }
 </script>
@@ -35,5 +33,10 @@ export default {
   }
   .chip{
     margin: 5px;
+  }
+  .icon-badge>em{
+    background-color: #28a599;
+    margin-left: 10px;
+    margin-right: -5px;
   }
 </style>

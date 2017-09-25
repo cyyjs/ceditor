@@ -1,19 +1,43 @@
 <template>
     <div>
     <top-head title="个人设置">
-        <mu-flat-button v-if="user.id" label="退出登录" class="logout" @click="logout" icon="exit_to_app" secondary/>
+        <mu-flat-button v-if="user._id" label="退出登录" class="logout" @click="logout" icon="exit_to_app" secondary/>
     </top-head>
-     <div class="head">
+    <div class="head">
         <img class="headImg" draggable="false" :src="headUrl" alt="head">
         <div class="name">{{user.name}}</div>
         <div class="blog"><a href="javascript:;"  @click="goBlog">{{user.blog}}</a></div>
         <div>{{user.bio}}</div>
-        <mu-raised-button v-if="!user.id" class="login"  :disabled="loading" label="登录" primary @click="login">
-          <mu-icon value="autorenew" v-if="!user.id && loading" class="spin"/>
+        <mu-raised-button v-if="!user._id" class="login"  :disabled="loading" label="登录" primary @click="login">
+          <mu-icon value="autorenew" v-if="!user._id && loading" class="spin"/>
           <svg class="icon" v-else aria-hidden="true" style="font-size:22px;margin-left:10px;">
             <use xlink:href="#icon-github"></use>
           </svg>
         </mu-raised-button>
+     </div>
+     <div class="hexo" v-show="user._id">
+        <div style="border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+          <svg class="icon" aria-hidden="true" style="font-size:2rem;">
+            <use xlink:href="#icon-fe-hexo"></use>
+          </svg>
+          <span style="font-size:1.5rem;">Hexo 设置</span>
+        </div>
+        <div v-if="!isReady" style="margin-top:10px;">
+          请先安装<a href="javascript:;" @click="$openUrl('http://nodejs.org/')">Node.js</a>和
+          <a href="javascript:;" @click="$openUrl('http://git-scm.com/')">Git</a>.
+        </div>
+          
+        <div v-else>
+          <svg class="icon" aria-hidden="true" style="font-size:1.5rem;color:#666;vertical-align:middle;">
+            <use xlink:href="#icon-blog"></use>
+          </svg>
+          <span class="path"><label for="">博客根目录</label>{{user.blogPath}}</span>
+          <span  v-if="initLoading" style="display: inline-block;line-height: 40px;">
+            <mu-icon value="settings" class="spin" style="vertical-align: middle;margin-left:10px;" color="#009688"/>
+            <span style="color:#009688;">初始化中</span>
+          </span>
+          <mu-flat-button  v-else :label="user.blogPath ? '重新选择':'选择目录'" icon="folder" class="selectBtn" primary @click.native="saveBlogPath" />
+        </div>
      </div>
     </div>
 </template>
@@ -31,14 +55,16 @@ export default {
   },
   computed: {
     ...mapState({
-      user: ({user}) => user.user
+      user: ({user}) => user.user,
+      isReady: ({setting}) => setting.isReady,
+      initLoading: ({setting}) => setting.initLoading
     }),
     headUrl () {
       return this.user.avatarUrl || 'http://ogd60qga4.bkt.clouddn.com/logo.jpeg'
     }
   },
   methods: {
-    ...mapActions(['logOut', 'setUser', 'setToken']),
+    ...mapActions(['logOut', 'setUser', 'setToken', 'saveBlogPath', 'getBlogIsReady']),
     goBlog () {
       this.$openUrl('http://' + this.user.blog)
     },
@@ -59,6 +85,7 @@ export default {
     ipcRenderer.on('loginClose', (event) => {
       this.loading = false
     })
+    this.getBlogIsReady()
   }
 }
 </script>
@@ -91,5 +118,21 @@ export default {
   .login {
     margin-top: 20px;
     width: 120px;
+  }
+  .hexo{
+    padding: 20px 60px;
+  }
+  .path{
+    vertical-align: bottom;
+    line-height: 40px;
+    display: inline-block;
+    &>label{
+      margin-right: 10px;
+    }
+  }
+  .selectBtn {
+    line-height: 40px;
+    vertical-align: middle;
+    height:40px;
   }
 </style>

@@ -3,8 +3,10 @@
         <top-head title="分类列表"></top-head>
         <div class="list">
           <mu-list>
-            <template v-for="item in types">
-              <mu-list-item :title="item" @click.native="$router.push('/?type=' + item)"/>
+            <template v-for="(v, k) in typeMap">
+              <mu-list-item :title="k" @click.native="$router.push('/?category=' + k)">
+                <mu-badge :content="String(v)" slot="right" primary/>
+              </mu-list-item>
               <mu-divider/>
             </template>
           </mu-list>
@@ -13,22 +15,19 @@
 </template>
 <script>
 import TopHead from './head.vue'
-import { mapState, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   components: { TopHead },
   data () {
-    return {}
-  },
-  computed: {
-    ...mapState({
-      types: ({types}) => types.types
-    })
+    return {
+      typeMap: {}
+    }
   },
   methods: {
-    ...mapActions(['getTypeList'])
+    ...mapActions(['getTypeListMap'])
   },
   async mounted () {
-    await this.getTypeList()
+    this.typeMap = await this.getTypeListMap()
   }
 }
 </script>

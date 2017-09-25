@@ -1,100 +1,113 @@
 body {
-    font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-family: "SF Pro SC", "SF Pro Text", "SF Pro Icons", "PingFang SC", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 }
 
 .icon {
-    width: 1em;
-    height: 1em;
-    vertical-align: -0.15em;
-    fill: currentColor;
-    overflow: hidden;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
 }
 
 .drag {
-    -webkit-app-region: drag;
+  -webkit-app-region: drag;
 }
 
 .center {
-    text-align: center;
+  text-align: center;
 }
 
 .right {
-    float: right;
+  float: right;
 }
 
 #login .mu-text-field-input {
-    color: #009688;
+  color: #009688;
 }
 
 #left-nav {
-    & .mu-item {
-        color: #fff;
-        padding: 5px;
-        text-align: center;
-        font-size: 1.8rem;
-    }
-    &>div {
-        padding-top: 10px;
-    }
+  & .mu-item {
+    color: #fff;
+    padding: 5px;
+    text-align: center;
+    font-size: 1.8rem;
+  }
+  &>div {
+    padding-top: 10px;
+  }
 
-    .close .mu-icon {
-        font-size: 2rem;
-    }
+  .close .mu-icon {
+    font-size: 2rem;
+  }
 }
 
 .noteList>div {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .clearfix:after {
-    content: ' ';
-    clear: both;
-    display: block;
+  content: ' ';
+  clear: both;
+  display: block;
 }
 
 .multiselect__tags {
-    white-space: nowrap;
-    min-height: 30px;
-    padding: 2px 30px 2px 5px;
-    & .multiselect__input,
-    .multiselect__single {
-        margin-bottom: 0;
-    }
-}
-.multiselect__tag{
+  white-space: nowrap;
+  min-height: 30px;
+  padding: 2px 30px 2px 5px;
+  & .multiselect__input,
+  .multiselect__single {
     margin-bottom: 0;
+  }
 }
+
+.multiselect__tag {
+  margin-bottom: 0;
+}
+
 .multiselect__select {
-    height: 30px;
-    width: 30px;
+  height: 30px;
+  width: 30px;
 }
-.multiselect__option{
-    padding: 6px;
-    min-height: 30px;
+
+.multiselect__option {
+  padding: 6px;
+  min-height: 30px;
 }
+
 .tags {
-    .multiselect__select{
-        display: none;
-    }
-    .multiselect__tags{
-        line-height: inherit;
-        min-height: 20px;
-        border: none;
-        background: none;
-        padding-top: 5px;
-    }
+  .multiselect__select {
+    display: none;
+  }
+  .multiselect__tags {
+    line-height: inherit;
+    min-height: 20px;
+    border: none;
+    background: none;
+    padding-top: 5px;
+  }
 }
 
+.dialogClass {
+  width: 380px;
+}
 
-// .tooltip {
-//     &:after {
-//         content: attr(tooltip);
-//         position: absolute;
-//         background: rgba(0, 0, 0, 0.4);
-//         color: #fff;
-//         font-size: 0.8rem;
-//         padding: 3px;
-//         border-radius: 3px;
-//         white-space: nowrap;
-//     }
-// }
+.tooltip {
+  position: absolute;
+  z-index: 999;
+  &:hover{
+      &::after {
+        content: attr(tooltip);
+        position: absolute;
+        background: rgba(0, 0, 0, 0.4);
+        color: #fff;
+        font-size: 0.8rem;
+        padding: 3px;
+        border-radius: 3px;
+        white-space: nowrap;
+        left: 35px;
+        top: 5px;
+      }
+  }
+}

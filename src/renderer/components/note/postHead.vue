@@ -1,70 +1,87 @@
 <template>
-  <div class="top-head drag clearfix">
-    <input type="text" v-model="post.title" @change="change" placeholder="请输入标题..." class="title">
-    <div class="right">
-      <mu-icon-menu icon="more_vert" slot="right" menuClass="rightMenu">
-        <mu-menu-item @click="$emit('menu', 'md')">
-          <span slot="title">
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-md"></use>
-            </svg>
-            导出 Markdown
-          </span>
-        </mu-menu-item>
-        <mu-menu-item @click="$emit('menu', 'html')">
-          <span slot="title">
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-HTML"></use>
-            </svg>
-            导出 HTML
-          </span>
-        </mu-menu-item>
-        <mu-menu-item @click="$emit('menu', 'pdf')">
-          <span slot="title">
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-pdf1"></use>
-            </svg>
-            导出 PDF
-          </span>
-        </mu-menu-item>
-        <mu-divider />
-        <mu-menu-item @click="$emit('menu', 'hexo')">
-          <span slot="title">
-            <svg class="icon" aria-hidden="true">
+  <div>
+    <mu-dialog :open="dialog" title="系统提示" @close="dialog=false" dialogClass="dialogClass">
+      确认要取消发布么？
+      <mu-flat-button slot="actions" @click="dialog=false" label="取消"/>
+      <mu-flat-button slot="actions" primary @click="rePublish" label="确定"/>
+    </mu-dialog>
+    <div class="top-head drag clearfix">
+      <input type="text" v-model="post.title" @change="change" placeholder="请输入标题..." class="title">
+      <div class="right">
+        <template v-if="isLogin">
+           <mu-flat-button v-if="note.publish || publishing" style="color:#05bff5;margin-right:-10px;" :disabled="publishing" :label="publishing ? '发布中' : '已发布'" labelPosition="after" @click="dialog=true">
+            <mu-icon v-if="publishing" value="settings" class="spin" style="vertical-align: middle;" color="#05bff5"/>
+            <svg  v-else class="icon" aria-hidden="true" style="font-size: 24px;margin-left: 10px;margin-right:-10px;">
               <use xlink:href="#icon-fe-hexo"></use>
             </svg>
-            发布到博客
-          </span>
-        </mu-menu-item>
-      </mu-icon-menu>
-    </div>
-    <div>
-      <span class="type-icon">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-fenlei"></use>
-        </svg>
-      </span>
-      <multiselect class="select" @keyup.native="inputChange" v-model="post.type" :show-labels="false" placeholder="选择分类" :options="options" :allow-empty="false" @input="change">
-        <span slot="noResult">按Enter键新建</span>
-      </multiselect>
-      <span class="type-icon">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#icon-biaoqian"></use>
-        </svg>
-      </span>
-      <multiselect class="tags" v-model="post.tags" tag-placeholder="" placeholder="搜索添加标签" :options="tags" :multiple="true" :max="3" :hide-selected="true" select-label="选择标签" deselect-label="删除标签" :show-labels="false" :limit-text="limitText" :taggable="true" @tag="addTag" @input="change">
-        <span slot="noResult">按Enter键新建</span>
-        <span slot="maxElements">最多只能选择3个</span>
-      </multiselect>
-      <span class="time">
-        修改时间: {{updated}}
-      </span>
+          </mu-flat-button>
+        </template>
+        <mu-icon-menu icon="more_vert" slot="right" menuClass="rightMenu">
+          <mu-menu-item @click="$emit('menu', 'md')">
+            <span slot="title">
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-md"></use>
+              </svg>
+              导出 Markdown
+            </span>
+          </mu-menu-item>
+          <mu-menu-item @click="$emit('menu', 'html')">
+            <span slot="title">
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-HTML"></use>
+              </svg>
+              导出 HTML
+            </span>
+          </mu-menu-item>
+          <mu-menu-item @click="$emit('menu', 'pdf')">
+            <span slot="title">
+              <svg class="icon" aria-hidden="true">
+                <use xlink:href="#icon-pdf1"></use>
+              </svg>
+              导出 PDF
+            </span>
+          </mu-menu-item>
+          <template v-if="isLogin">
+            <mu-divider />
+            <mu-menu-item @click="$emit('menu', 'hexo')" :disabled="publishing">
+              <span slot="title">
+                <svg class="icon" aria-hidden="true">
+                  <use xlink:href="#icon-fe-hexo"></use>
+                </svg>
+                发布到博客
+              </span>
+            </mu-menu-item>
+          </template>
+        </mu-icon-menu>
+      </div>
+      <div>
+        <span class="type-icon">
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-fenlei"></use>
+          </svg>
+        </span>
+        <multiselect class="select" @keyup.native="inputChange" v-model="post.category" :show-labels="false" placeholder="选择分类" :options="options" :allow-empty="false" @input="change">
+          <span slot="noResult">按Enter键新建</span>
+        </multiselect>
+        <span class="type-icon">
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-biaoqian"></use>
+          </svg>
+        </span>
+        <multiselect class="tags" v-model="post.tags" tag-placeholder="" placeholder="搜索添加标签" :options="tags" :multiple="true" :max="3" :hide-selected="true" select-label="选择标签" deselect-label="删除标签" :show-labels="false" :limit-text="limitText" :taggable="true" @tag="addTag" @input="change">
+          <span slot="noResult">按Enter键新建</span>
+          <span slot="maxElements">最多只能选择3个</span>
+        </multiselect>
+        <span class="time">
+          修改时间: {{updated}}
+        </span>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import Multiselect from 'vue-multiselect'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import moment from 'moment'
 export default {
   props: {
@@ -73,16 +90,18 @@ export default {
       default: () => ({
         title: '',
         tags: [],
-        type: '',
+        category: '',
         updated: new Date()
       })
-    }
+    },
+    note: Object
   },
   components: {
     Multiselect
   },
   data () {
     return {
+      dialog: false,
       flag: 1,
       post: (() => {
         return this.value
@@ -92,16 +111,20 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      publishing: ({post}) => post.publishing,
+      isLogin: ({user}) => user.userID
+    }),
     updated () {
       return moment(this.post.updated).format('YYYY-MM-DD HH:mm')
     }
   },
   methods: {
-    ...mapActions(['getTypeList', 'getTagList']),
+    ...mapActions(['getTypeList', 'getTagList', 'dePublish']),
     inputChange (event) {
       let v = event.target.value
       if (event.keyCode === 13) {
-        this.post.type = v
+        this.post.category = v
         this.options.push(v)
         event.target.blur()
       }
@@ -117,16 +140,21 @@ export default {
     emit () {
       this.flag = 0
       this.$emit('input', this.post)
+      this.$emit('change')
     },
     change () {
       this.emit()
+    },
+    async rePublish () {
+      this.dialog = false
+      await this.dePublish(this.note._id)
     }
   },
   watch: {
     value: {
       handler (v) {
         if (this.flag) {
-          this.post.type = v.type
+          this.post.category = v.category
           this.post.tags = [...v.tags]
           this.post.title = v.title
         }
