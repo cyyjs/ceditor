@@ -9,3 +9,5 @@ shell.ls('*.txt').forEach(function (f) {
   // console.log(str.toString())
 })
 // shell.mv('a.txt', 'b.txt')
+var pathEnv = process.env.path || process.env.Path || process.env.PATH
+console.log(pathEnv)

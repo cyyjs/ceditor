@@ -16,7 +16,7 @@
         </mu-raised-button>
      </div>
      <div class="hexo" v-show="user._id">
-        <div style="border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+        <div style="border-bottom: 1px solid #ddd; padding-bottom: 10px;margin-bottom: 10px;">
           <svg class="icon" aria-hidden="true" style="font-size:2rem;">
             <use xlink:href="#icon-fe-hexo"></use>
           </svg>

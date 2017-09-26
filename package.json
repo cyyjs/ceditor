@@ -22,6 +22,10 @@
     "unit": "karma start test/unit/karma.conf.js",
     "postinstall": "npm run lint:fix"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cyy0418/ceditor.git"
+  },
   "build": {
     "productName": "CEditor",
     "appId": "org.simulatedgreg.electron-vue",

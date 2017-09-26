@@ -21,14 +21,13 @@ init:
 
 install:
   - ps: Install-Product node 8 x64
-  - choco install yarn --ignore-dependencies
   - git reset --hard HEAD
-  - yarn
+  - npm install
   - node --version
 
 build_script:
   #- yarn test
-  - yarn build
+  - npm run build
 
 test: off
 deploy:

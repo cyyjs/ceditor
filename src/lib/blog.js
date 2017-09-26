@@ -5,6 +5,7 @@ import { ipcRenderer } from 'electron'
 import {PostDB} from '../renderer/store/db'
 const Shell = require('shelljs')
 const Path = require('path')
+Shell.env.PATH += Path.delimiter + '/usr/local/bin' // 添加环境变量
 const fs = require('fs')
 // const Path = require('path')
 
@@ -124,6 +125,7 @@ export default class {
       if (ls.includes('_config.yml')) { // 如果选择的目录已经初始化过，导入里面的文档
         await ImportPosts(path, user)
       } else { // 初始化blog文件
+        console.log(path)
         Shell.cd(path)
         await Exec('hexo init && npm install --registry=https://registry.npm.taobao.org')
         await Exec('npm install hexo-deployer-git -S --registry=https://registry.npm.taobao.org')
@@ -132,7 +134,7 @@ export default class {
         await Exec(`cp ${defaultMd} source/_posts/`)
         await UpdateConfig(path, user)
         await initGithubRepos(user)
-        await Exec('hexo generate --deploy', '尝试发布部署失败')
+        await Exec(`hexo generate --deploy`, '尝试发布部署失败')
         ipcRenderer.send('message', {
           title: '系统提示',
           type: 'success',
@@ -163,7 +165,7 @@ export default class {
     fs.writeFileSync(postPath, data)
     Shell.cd(user.blogPath)
     try {
-      await Exec('hexo generate --deploy', '尝试发布部署失败')
+      await Exec(`hexo generate --deploy`, '尝试发布部署失败')
       await PostDB.update({ _id }, { $set: { publish: true } })
       ipcRenderer.send('message', {
         title: '系统提示',
@@ -188,7 +190,7 @@ export default class {
     let postPath = Path.join(user.blogPath, `source/_posts/${_id}.md`)
     Shell.rm(postPath)
     try {
-      await Exec('hexo generate --deploy', '尝试发布部署失败')
+      await Exec(`hexo generate --deploy`, '尝试发布部署失败')
       await PostDB.update({ _id }, { $set: { publish: false } })
       ipcRenderer.send('message', {
         title: '系统提示',

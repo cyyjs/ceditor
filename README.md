@@ -2,7 +2,7 @@
 
 <p align="center">
 <a href="https://travis-ci.org/cyy0418/ceditor" target="_blank"><img src="https://travis-ci.org/cyy0418/ceditor.svg?branch=master" alt=""></a>
-<a href="https://ci.appveyor.com/project/cyy0418/ceditor" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/0c9hwv5fliw3m9bk?svg=true" alt=""></a>
+<a href="https://ci.appveyor.com/project/cyy0418/ceditor" target="_blank"><img src="https://ci.appveyor.com/api/projects/status/sh7pea9shu80qhn1?svg=true" alt=""></a>
 <a href=""><img src="https://img.shields.io/badge/platform-osx-brightgreen.svg" alt="platform"></a>
 <a href=""><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="platform"></a>
 </p>
