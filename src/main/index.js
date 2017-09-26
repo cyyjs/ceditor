@@ -28,7 +28,7 @@ function createWindow () {
     minHeight: 720,
     show: false
   })
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
   mainWindow.loadURL(__winurl)
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
