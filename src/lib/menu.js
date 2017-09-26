@@ -1,5 +1,5 @@
 'use strict'
-import { app, Menu } from 'electron'
+import { app, Menu, shell } from 'electron'
 let appName = app.getName()
 const template = [
   {
@@ -43,8 +43,16 @@ const template = [
     id: 5,
     submenu: [
       {
-        label: 'Learn More',
-        click () { require('electron').shell.openExternal('https://electron.atom.io') }
+        label: '关于作者',
+        click () {
+          shell.openExternal('http://cuiyy.top')
+        }
+      },
+      {
+        label: '反馈建议',
+        click () {
+          shell.openExternal('https://github.com/cyy0418/ceditor/issues')
+        }
       }
     ]
   }
@@ -56,6 +64,12 @@ if (process.platform === 'darwin') {
     id: 1,
     submenu: [
       {label: '关于 ' + app.getName(), role: 'about'},
+      {type: 'separator'},
+      // {
+      //   label: '偏好设置',
+      //   accelerator: 'CmdOrCtrl+,',
+      //   click: function () {}
+      // },
       {type: 'separator'},
       {label: '服务', role: 'services', submenu: []},
       // {type: 'separator'},
