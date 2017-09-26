@@ -1,5 +1,5 @@
 'use strict'
-export default {
+module.exports = {
   ClientID: process.env.ClientID,
   ClientSecret: process.env.ClientSecret,
   githubUrl: 'https://github.com/login/oauth/authorize?',

@@ -1,15 +1,14 @@
 'use strict'
-
 process.env.NODE_ENV = 'production'
-
+const Config = require('../config')
+const Fs = require('fs')
+const Path = require('path')
 const { say } = require('cfonts')
 const chalk = require('chalk')
 const del = require('del')
 const { spawn } = require('child_process')
 const webpack = require('webpack')
 const Multispinner = require('multispinner')
-
-
 const mainConfig = require('./webpack.main.config')
 const rendererConfig = require('./webpack.renderer.config')
 const webConfig = require('./webpack.web.config')
@@ -18,6 +17,11 @@ const doneLog = chalk.bgGreen.white(' DONE ') + ' '
 const errorLog = chalk.bgRed.white(' ERROR ') + ' '
 const okayLog = chalk.bgBlue.white(' OKAY ') + ' '
 const isCI = process.env.CI || false
+
+let configStr = `'use strict'
+export default ${JSON.stringify(Config, null, 2).replace(/"/g, "'")}
+`
+Fs.writeFileSync(Path.join(__dirname, '../src/config.js'), configStr)
 
 if (process.env.BUILD_TARGET === 'clean') clean()
 else if (process.env.BUILD_TARGET === 'web') web()

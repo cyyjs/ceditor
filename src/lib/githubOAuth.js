@@ -1,6 +1,6 @@
 import { BrowserWindow, ipcMain } from 'electron'
 import Qs from 'querystring'
-import Config from '../../config'
+import Config from '../config'
 import axios from 'axios'
 let options = {
   client_id: Config.ClientID,

@@ -1,5 +1,5 @@
 'use strict'
-import Config from '../../config'
+import Config from '../config'
 import { ipcRenderer } from 'electron'
 const qiniu = require('qiniu')
 const uuidv1 = require('uuid/v1')
