@@ -43,9 +43,15 @@ const template = [
     id: 5,
     submenu: [
       {
+        label: '主页',
+        click () {
+          shell.openExternal('http://ceditor.alibt.top')
+        }
+      },
+      {
         label: '关于作者',
         click () {
-          shell.openExternal('http://cuiyy.top')
+          shell.openExternal('https://github.com/cyy0418')
         }
       },
       {
