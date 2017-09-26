@@ -10,3 +10,4 @@ npm-debug.log.*
 thumbs.db
 !.gitkeep
 build.sh
+src/config.js
