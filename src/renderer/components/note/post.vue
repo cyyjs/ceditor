@@ -42,7 +42,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['getNote', 'saveOrUpdateNote', 'saveImg', 'exportFile']),
+    ...mapActions(['getNote', 'saveOrUpdateNote', 'saveImg', 'exportFile', 'createNote']),
     async init () {
       this._id = this.$route.params.id
       if (this._id) {
@@ -66,9 +66,17 @@ export default {
           date: new Date()
         }
         this.content = ''
+        this.createNote()
       }
     },
     async save () {
+      if (!this.postMate.title) {
+        this.$message({
+          title: '系统提示',
+          message: '请输入标题'
+        })
+        return false
+      }
       this.loading = true
       let save = async () => {
         await this.saveCom()
@@ -134,7 +142,7 @@ export default {
     await this.init()
     clearInterval(timer)
     timer = setInterval(() => {
-      if (this.$route.path.includes('/post')) {
+      if (this.$route.path.includes('/post') && this.postMate.title) {
         this.saveCom()
       } else {
         clearInterval(timer)

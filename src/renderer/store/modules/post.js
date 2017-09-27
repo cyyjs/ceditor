@@ -32,7 +32,9 @@ const actions = {
     let result = await UploadAPI.upload(file)
     return result
   },
-
+  createNote ({ commit }) {
+    commit('SET_POST', {})
+  },
   // 获取文章列表
   async getNoteList ({ commit }, query = {}) {
     let data = await PostDB.findSort(query, { updated: -1 })
