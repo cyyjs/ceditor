@@ -27,12 +27,12 @@ before_install:
   -y icnsutils graphicsmagick xz-utils; fi
 install:
 - nvm install 8
-- curl -o- -L https://yarnpkg.com/install.sh | bash
-- source ~/.bashrc
 - npm install -g xvfb-maybe
 - npm install
 script:
 - npm run build
+- pwd
+- ls
 branches:
   only:
   - master
