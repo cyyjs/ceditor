@@ -44,5 +44,6 @@ deploy:
     secure: E+qmaYp+EfwivvB2kNOZcivB8FpRc8VbpVNXDg3LajzWhb2W49fUXgqlhnYTv/Ed/TtYgch9Vx0XHmoCzh2xmRyE7m1/UKONEITA1ujKJXtpVXk553KOTkE7v307BB0hT1/FB5eS8Cd77amVgOdVB+pMyhTwrfymji8/VnP00MIwr/Ck1cVNo6W9/hCxNS0HkmqHWE7rv4CWZJeE8KuLTjbEm8qtLaQ3tFbBq4i+oxc/9r95dZ5SkjBg60V3I/isC8Tb6eQxaBuaMZbE8LE2Yl838qNl78gCuhzJoUXalw8TxFt0hDUM1D5ial5maLaYN0NTQC87BKAXNnqEIoym3J6lcXFMNvTz9y7zVaK8i03S9Cq+/Y1CH8Nmx2i10DNcOam60V36/gMBjGNtYJCbTsX38sTmmla0DAtdlHoXeTXom78W9qvQY/otgrNUKJlq3CwWZ3iL2lxdd0ROaqB6hMoQKQWT/zx+myGzi9oYlJ5aVNfKP1tbOmZtwG6s3y99oD0WZfpjVHYb7StTu8TBl0IqU1UujsTVVsiFIUYOo4RxA4zwMQJ4LpUuir05uCyyLLxp3cWk2c6wrvuv1JTgimN9vy5YV/Z97uT4Kb/ApNiDSUsmTcw+1rSZg/wrHSnvJsTcFbTO73iEZMsLTlwWlVMIXOPHoYl5MlULSY2j6T8=
   file: build/*
   on:
-    repo: cyy0418/ceditor
+    branch: master 
+# repo: cyy0418/ceditor
 # tags: false
