@@ -103,7 +103,8 @@ export default {
 </script>
 <style>
 .list{
-  padding: 10px;
+  padding: 15px;
+  padding-top: 60px;
 }
 .hexo-item{
   font-size: 24px;

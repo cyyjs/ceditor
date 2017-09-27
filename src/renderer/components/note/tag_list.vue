@@ -1,6 +1,6 @@
 <template>
     <div>
-        <top-head title="分类列表"></top-head>
+        <top-head title="标签列表"></top-head>
         <div class="list">
           <mu-chip class="chip" backgroundColor="teal500" color="#fff" v-for="(v, k) in tagMap" :key="k" @click.native="$router.push('/?tag='+k)">
             {{k}}
@@ -28,11 +28,8 @@ export default {
 }
 </script>
 <style>
-  .list{
-    padding: 20px;
-  }
   .chip{
-    margin: 5px;
+    margin: 8px;
   }
   .icon-badge>em{
     background-color: #28a599;

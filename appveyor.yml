@@ -1,7 +1,8 @@
 # Commented sections below can be used to run tests on the CI server
 # https://simulatedgreg.gitbooks.io/electron-vue/content/en/testing.html#on-the-subject-of-ci-testing
 version: 1.0.{build}
-
+skip_non_tags: true
+shallow_clone: true
 branches:
   only:
     - master
@@ -24,18 +25,21 @@ install:
   - git reset --hard HEAD
   - npm install
   - node --version
-
+build:
+  verbosity: minimal
 build_script:
   #- yarn test
   - npm run build
 
 test: off
 deploy:
-  release: '1.0.1'
+- provider: GitHub
+  tag: 1.0.0
+  release: 1.0.0
   description: 'Release'
-  provider: GitHub
   auth_token:
     secure: AAtnf9eJWdGGr6Ce4idQKaRA8BnrNhS1uOzcXlksTUYiXWKQhceZdH9hcKBqwuwe # your encrypted token from GitHub
+  repository: cyy0418/ceditor
   artifact: /.*\.nupkg/
   draft: false
   prerelease: false

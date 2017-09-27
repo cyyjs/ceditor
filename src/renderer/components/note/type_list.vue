@@ -31,8 +31,3 @@ export default {
   }
 }
 </script>
-<style>
-  .list{
-    padding: 20px;
-  }
-</style>

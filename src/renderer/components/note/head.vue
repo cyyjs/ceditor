@@ -67,6 +67,10 @@ export default {
 </script>
 <style lang='scss' scoped>
 .top-head{
+    position: fixed;
+    z-index: 1000;
+    left: 70px;
+    right: 0;
     border-bottom: 1px solid #ddd;
     background-color: #eee;
     color: #333;
