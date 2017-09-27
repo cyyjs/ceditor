@@ -2,7 +2,6 @@
 # https://simulatedgreg.gitbooks.io/electron-vue/content/en/testing.html#on-the-subject-of-ci-testing
 version: 1.0.{build}
 skip_non_tags: true
-shallow_clone: true
 branches:
   only:
     - master
