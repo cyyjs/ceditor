@@ -108,6 +108,7 @@ export default {
   .head{
     text-align: center;
     margin: 20px;
+    margin-top: 80px;
   }
   .blog{
     margin: 10px 0;

@@ -71,6 +71,7 @@ export default {
     z-index: 1000;
     left: 70px;
     right: 0;
+    top: 0;
     border-bottom: 1px solid #ddd;
     background-color: #eee;
     color: #333;
