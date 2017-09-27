@@ -64,7 +64,7 @@
     "axios": "^0.16.1",
     "electron-updater": "^2.10.0",
     "lodash": "^4.17.4",
-    "mavon-editor": "^2.2.5",
+    "mavon-editor": "^2.2.7",
     "moment": "^2.18.1",
     "nedb": "^1.8.0",
     "qiniu": "^7.0.8",
