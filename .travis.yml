@@ -34,6 +34,7 @@ script:
 branches:
   only:
   - master
+  - /\d+\.\d+\.\d+/
 deploy:
   provider: releases
   overwrite: true

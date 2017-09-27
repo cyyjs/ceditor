@@ -6,6 +6,7 @@ shallow_clone: true
 branches:
   only:
     - master
+    - /\d+\.\d+\.\d+/
 
 image: Visual Studio 2017
 platform:
