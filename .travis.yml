@@ -45,5 +45,5 @@ deploy:
   file: build/*
   on:
     branch: master 
+    tags: false
 # repo: cyy0418/ceditor
-# tags: false
