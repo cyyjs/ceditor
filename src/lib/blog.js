@@ -161,7 +161,7 @@ export default class {
       return false
     }
     let postPath = Path.join(user.blogPath, `source/_posts/${_id}.md`)
-    data += '<div style="text-align:right;font-size:12px;color:#666;">----publish by <a href="http://ceditor.alibt.top" target="_blank">CEditor</a></div>'
+    data += '\n<div style="text-align:right;font-size:12px;color:#666;">----publish by <a href="http://ceditor.alibt.top" target="_blank">CEditor</a></div>'
     fs.writeFileSync(postPath, data)
     Shell.cd(user.blogPath)
     try {
