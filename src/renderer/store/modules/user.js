@@ -56,7 +56,7 @@ const actions = {
     let _id = data.id
     delete data.id
     data._id = _id
-    await UserDB.update({ _id }, data, { upsert: true })
+    await UserDB.update({ _id }, {$set: data}, { upsert: true })
     let user = await UserDB.findOne({ _id })
     if (user) {
       commit('SET_USER', user)

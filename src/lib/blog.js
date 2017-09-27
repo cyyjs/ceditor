@@ -49,9 +49,9 @@ async function SavePost (post, user) {
     publish: true,
     content
   }
-  let o = await PostDB.findOne({title: data.title, date: data.date})
+  let o = await PostDB.findOne({title: data.title})
   if (o) {
-    await PostDB.update({title: data.title, date: data.date}, {$set: data})
+    await PostDB.update({title: data.title}, {$set: data})
     return {}
   } else {
     let r = await PostDB.insert(data)
@@ -125,7 +125,6 @@ export default class {
       if (ls.includes('_config.yml')) { // 如果选择的目录已经初始化过，导入里面的文档
         await ImportPosts(path, user)
       } else { // 初始化blog文件
-        console.log(path)
         Shell.cd(path)
         await Exec('hexo init && npm install --registry=https://registry.npm.taobao.org')
         await Exec('npm install hexo-deployer-git -S --registry=https://registry.npm.taobao.org')
