@@ -40,6 +40,7 @@ export default {
       tip: '',
       category: '',
       tag: '',
+      title: '', // query title
       noteMap: {}
     }
   },
@@ -76,11 +77,17 @@ export default {
       if (this.tag) {
         query.tags = this.tag
       }
+      if (this.title) {
+        query.title = {
+          $regex: new RegExp(this.title)
+        }
+      }
       this.noteMap = await this.getNoteGroupMonth(query)
     },
     async change (opt) {
       this.category = opt.category
       this.tag = opt.tag
+      this.title = opt.title
       await this.fetch()
     }
   },

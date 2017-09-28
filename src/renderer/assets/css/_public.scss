@@ -13,7 +13,9 @@ body {
 .drag {
   -webkit-app-region: drag;
 }
-
+.nodrag {
+  -webkit-app-region: no-drag;
+}
 .center {
   text-align: center;
 }
@@ -121,4 +123,8 @@ body {
   top: 0px;
   right: 0;
   left: 70px;
+}
+.tags .multiselect__input{
+  line-height: 29px;
+  margin-top: -5px;
 }

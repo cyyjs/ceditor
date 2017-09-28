@@ -6,8 +6,8 @@
       <mu-flat-button slot="actions" primary @click="rePublish" label="确定"/>
     </mu-dialog>
     <div class="top-head drag clearfix">
-      <input type="text" v-model="post.title" @change="change" placeholder="请输入标题..." class="title">
-      <div class="right">
+      <input type="text" v-model="post.title" @change="change" placeholder="请输入标题..." class="title nodrag">
+      <div class="right nodrag">
         <template v-if="isLogin">
            <mu-flat-button v-if="note.publish || publishing" style="color:#05bff5;margin-right:-10px;" :disabled="publishing" :label="publishing ? '发布中' : '已发布'" labelPosition="after" @click="dialog=true">
             <mu-icon v-if="publishing" value="settings" class="spin" style="vertical-align: middle;" color="#05bff5"/>
@@ -54,13 +54,13 @@
           </template>
         </mu-icon-menu>
       </div>
-      <div>
+      <div z>
         <span class="type-icon">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#icon-fenlei"></use>
           </svg>
         </span>
-        <multiselect class="select" @keyup.native="inputChange" v-model="post.category" :show-labels="false" placeholder="选择分类" :options="options" :allow-empty="false" @input="change">
+        <multiselect class="select nodrag" @keyup.native="inputChange" v-model="post.category" :show-labels="false" placeholder="选择分类" :options="options" :allow-empty="false" @input="change">
           <span slot="noResult">按Enter键新建</span>
         </multiselect>
         <span class="type-icon">
@@ -68,7 +68,7 @@
             <use xlink:href="#icon-biaoqian"></use>
           </svg>
         </span>
-        <multiselect class="tags" v-model="post.tags" tag-placeholder="" placeholder="搜索添加标签" :options="tags" :multiple="true" :max="3" :hide-selected="true" select-label="选择标签" deselect-label="删除标签" :show-labels="false" :limit-text="limitText" :taggable="true" @tag="addTag" @input="change">
+        <multiselect class="tags nodrag" v-model="post.tags" tag-placeholder="" placeholder="搜索添加标签" :options="tags" :multiple="true" :max="3" :hide-selected="true" select-label="选择标签" deselect-label="删除标签" :show-labels="false" :limit-text="limitText" :taggable="true" @tag="addTag" @input="change">
           <span slot="noResult">按Enter键新建</span>
           <span slot="maxElements">最多只能选择3个</span>
         </multiselect>

@@ -7,19 +7,19 @@
               <use xlink:href="#icon-fenlei"></use>
             </svg>
           </span>
-          <multiselect class="select left" v-model="postType" :show-labels="false" placeholder="选择分类" :options="types" :allow-empty="true" @input="change">
+          <multiselect class="select left nodrag" v-model="postType" :show-labels="false" placeholder="选择分类" :options="types" :allow-empty="true" @input="change">
             <span slot="noResult">无结果</span>
           </multiselect>
-          <span class="type-icon left">
+          <span class="type-icon left ">
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-biaoqian"></use>
             </svg>
           </span>
-          <multiselect class="select left" v-model="tag" tag-placeholder="" placeholder="选择标签"  :options="tags" select-label="选择标签"  :show-labels="false" @input="change">
+          <multiselect class="select left nodrag" v-model="tag" tag-placeholder="" placeholder="选择标签"  :options="tags" select-label="选择标签"  :show-labels="false" @input="change">
             <span slot="noResult">无结果</span>
           </multiselect>
-          <mu-text-field hintText="搜索文章" icon="search" class="search"/>
-          <mu-raised-button class="add" mini label="新建" icon="add" to="/post" primary/>
+          <mu-text-field hintText="搜索文章" @input="change" icon="search" class="search nodrag"/>
+          <mu-raised-button class="add nodrag" mini label="新建" icon="add" to="/post" primary/>
         </div>
         <slot></slot>
     </div>
@@ -50,10 +50,11 @@ export default {
   },
   methods: {
     ...mapActions(['getTypeList', 'getTagList']),
-    change () {
+    change (v) {
       this.$emit('change', {
         category: this.postType,
-        tag: this.tag
+        tag: this.tag,
+        title: v
       })
     }
   },

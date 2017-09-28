@@ -7,8 +7,13 @@
 <a href=""><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="platform"></a>
 </p>
 
-CEditor 是一个Markdown编辑器。
+CEditor是一个markdown编辑器，支持导出pdf，html和markdown文件，并且支持一键发布到[hexo](https://hexo.io/zh-cn/)博客。
 
+### 列表搜索
+![image](https://user-images.githubusercontent.com/2883079/30948132-6c766700-a3d3-11e7-9c46-5a5e37040405.png)
+
+### 编辑导出发布
+![image](https://user-images.githubusercontent.com/2883079/30948207-f132ef54-a3d3-11e7-9999-cc570242221a.png)
 ## License
 
 [MIT](https://github.com/cyy0418/ceditor/blob/master/LICENSE.md)
