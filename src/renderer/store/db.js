@@ -37,6 +37,6 @@ export {
   UserDB,
   DB
 }
-PostDB.remove({}, { multi: true }).then(a => {
-  console.log(a)
-})
+// PostDB.remove({}, { multi: true }).then(a => {
+//   console.log(a)
+// })
