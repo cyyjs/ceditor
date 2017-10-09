@@ -1,5 +1,6 @@
 'use strict'
 import Blog from './blog'
+import {css} from '../data/static'
 const { dialog, BrowserWindow, app } = require('electron').remote
 const fs = require('fs')
 const path = require('path')
@@ -19,14 +20,7 @@ function selectPathForWrite (filters, filename = '未命名') {
   return filePath
 }
 
-// 读取文本内容
-function getFileText (filePath) {
-  filePath = path.join(__static, filePath)
-  return fs.readFileSync(filePath, 'utf8')
-}
-
 function getHtml (title, body) {
-  let css = getFileText('md.css')
   return `
   <!DOCTYPE html>
   <html>

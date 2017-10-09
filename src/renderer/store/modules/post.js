@@ -2,11 +2,13 @@
 import {PostDB} from '../db'
 import UploadAPI from '../../../lib/upload'
 import Io from '../../../lib/io'
+import {def as defaultContent} from '../../../data/static'
+
 const moment = require('moment')
-const fs = require('fs')
-const path = require('path')
+// const fs = require('fs')
+// const path = require('path')
 const Reg = /!\[[^[]*?\]\(\s*([^)|^\s]+)(?=\s*\))/g
-const defaultContent = fs.readFileSync(path.join(__static, 'default.md')).toString()
+// const defaultContent = fs.readFileSync(path.join(__static, 'default.md')).toString()
 const state = {
   list: [],
   post: {},

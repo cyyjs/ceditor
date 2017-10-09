@@ -1,8 +1,8 @@
 'use strict'
 import axios from 'axios'
 import { ipcRenderer } from 'electron'
-// const { app } = require('electron').remote
 import {PostDB} from '../renderer/store/db'
+import {yml, hello} from '../data/static'
 const Shell = require('shelljs')
 const Path = require('path')
 Shell.env.PATH += Path.delimiter + '/usr/local/bin' // 添加环境变量
@@ -74,12 +74,13 @@ function Exec (cmd, errmsg) {
 
 // 修改blog配置文件
 function UpdateConfig (path, user) {
-  let configPath = Path.join(__static, '_config.yml')
+  // let configPath = Path.join(__static, '_config.yml')
   let file = path + '/_config.yml'
   let blog = user.blog || 'http://' + user.githubAccount + '.github.io'
   let repo = `https://github.com/${user.githubAccount}/${user.githubAccount}.github.io.git`
   return new Promise(async (resolve, reject) => {
-    await Exec(`cp ${configPath} ${path}`)
+    // await Exec(`cp ${configPath} ${path}`)
+    fs.writeFileSync(file, yml)
     Shell.sed('-i', /__title__/, user.name, file)
     Shell.sed('-i', /__subtitle__/, user.bio, file)
     Shell.sed('-i', /__author__/, user.name, file)
@@ -128,9 +129,11 @@ export default class {
         Shell.cd(path)
         await Exec('hexo init && npm install --registry=https://registry.npm.taobao.org')
         await Exec('npm install hexo-deployer-git -S --registry=https://registry.npm.taobao.org')
-        let defaultMd = Path.join(__static, 'hello_ceditor.md')
+        // let defaultMd = Path.join(__static, 'hello_ceditor.md')
         await Exec('rm source/_posts/hello-world.md')
-        await Exec(`cp ${defaultMd} source/_posts/`)
+        // await Exec(`cp ${defaultMd} source/_posts/`)
+        fs.writeFileSync(Path.join(path, 'source/_posts/hello_ceditor.md'), hello)
+        await ImportPosts(path, user)
         await UpdateConfig(path, user)
         await initGithubRepos(user)
         await Exec(`hexo generate --deploy`, '尝试发布部署失败')
@@ -142,6 +145,7 @@ export default class {
       }
       return
     } catch (e) {
+      console.log(e)
       let err = String(e)
       if (err.includes('please run `hexo init` on an empty ')) {
         return '请选择为空的目录'
