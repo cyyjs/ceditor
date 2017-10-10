@@ -102,9 +102,6 @@ export default {
     this.category = this.$route.query.category
     this.tag = this.$route.query.tag
     await this.fetch()
-  },
-  async deactivated () {
-    console.log('==')
   }
 }
 </script>

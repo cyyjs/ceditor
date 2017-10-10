@@ -2,7 +2,7 @@
 import {PostDB} from '../db'
 import UploadAPI from '../../../lib/upload'
 import Io from '../../../lib/io'
-import {def as defaultContent} from '../../../data/static'
+// import {def as defaultContent} from '../../../data/static'
 
 const moment = require('moment')
 // const fs = require('fs')
@@ -128,23 +128,23 @@ const actions = {
   },
   // 初始化文章
   async initNote ({dispatch}) {
-    let count = await PostDB.count({})
-    if (!count) {
-      let user = dispatch('getUser')
-      let data = {
-        userID: user._id,
-        title: '欢迎使用 CEditor',
-        category: '默认分类',
-        tags: ['markdown'],
-        content: defaultContent,
-        date: new Date(),
-        publish: false,
-        updated: new Date()
-      }
-      let r = await PostDB.insert(data)
-      dispatch('getNoteList')
-      return r
-    }
+    // let count = await PostDB.count({})
+    // if (!count) {
+    //   let user = dispatch('getUser')
+    //   let data = {
+    //     userID: user._id,
+    //     title: '欢迎使用 CEditor',
+    //     category: '默认分类',
+    //     tags: ['markdown'],
+    //     content: defaultContent,
+    //     date: new Date(),
+    //     publish: false,
+    //     updated: new Date()
+    //   }
+    //   let r = await PostDB.insert(data)
+    //   dispatch('getNoteList')
+    //   return r
+    // }
   }
 }
 
