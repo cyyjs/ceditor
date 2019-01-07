@@ -1,23 +1,26 @@
 'use strict'
 import { autoUpdater } from 'electron-updater'
 import { app, BrowserWindow, ipcMain } from 'electron'
-import {MyMenu, OAuthWin, Message} from '../lib'
+import { MyMenu, OAuthWin, Message } from '../lib'
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
 if (process.env.NODE_ENV !== 'development') {
-  global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+  global.__static = require('path')
+    .join(__dirname, '/static')
+    .replace(/\\/g, '\\\\')
 }
 
-global.__winurl = process.env.NODE_ENV === 'development'
-  ? 'http://localhost:9080'
-  : `file://${__dirname}/index.html`
+global.__winurl =
+    process.env.NODE_ENV === 'development'
+      ? 'http://localhost:9080'
+      : `file://${__dirname}/index.html`
 let mainWindow
 function createWindow () {
   /**
-   * Initial window options
-   */
+     * Initial window options
+     */
   mainWindow = new BrowserWindow({
     height: 720,
     useContentSize: true,
